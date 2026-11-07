@@ -19,10 +19,10 @@
     const title = document.createElement("h3"); title.textContent = doc.title || "Guide pratique";
     const description = document.createElement("p"); description.textContent = doc.description || "Un guide à consulter à ton rythme.";
     const download = document.createElement("a"); download.className = "button download"; download.textContent = "Télécharger le PDF ↓"; download.href = safeUrl(doc.pdf || "") || "#"; download.setAttribute("data-download", "");
-    if (download.href === "#") download.setAttribute("aria-disabled", "true");
+    if (!safeUrl(doc.pdf || "")) { download.setAttribute("aria-disabled", "true"); download.setAttribute("data-invalid", ""); }
     info.append(category, title, description, download); article.append(cover, info); return article;
   }
-  function updateGate() { const unlocked = localStorage.getItem(storageKey) === "yes"; gate.hidden = list.children.length === 0; list.querySelectorAll("[data-download]").forEach((a) => { if (a.href !== location.href + "#") { if (unlocked) a.removeAttribute("aria-disabled"); else a.setAttribute("aria-disabled", "true"); } }); confirm.textContent = unlocked ? "Accès aux PDF activé ✓" : "J’ai rejoint la chaîne"; }
+  function updateGate() { const unlocked = localStorage.getItem(storageKey) === "yes"; gate.hidden = list.children.length === 0; list.querySelectorAll("[data-download]").forEach((a) => { if (!a.hasAttribute("data-invalid")) { if (unlocked) a.removeAttribute("aria-disabled"); else a.setAttribute("aria-disabled", "true"); } }); confirm.textContent = unlocked ? "Accès aux PDF activé ✓" : "J’ai rejoint la chaîne"; }
   confirm.addEventListener("click", () => { localStorage.setItem(storageKey, "yes"); updateGate(); });
   fetch("documents.json", { cache: "no-store" }).then((r) => { if (!r.ok) throw new Error("catalogue"); return r.json(); }).then((docs) => { if (!Array.isArray(docs)) throw new Error("format"); docs.forEach((doc) => list.append(card(doc))); empty.hidden = docs.length !== 0; updateGate(); }).catch(() => { empty.hidden = false; updateGate(); });
 })();
