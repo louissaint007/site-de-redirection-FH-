@@ -1,12 +1,25 @@
-# Futur Haïti — page d’entrée AI Academy
+# Futur Haïti — ressources IA
 
-Site statique en français destiné à présenter la formation et orienter les visiteurs vers la plateforme et la communauté WhatsApp.
+Page mobile-first de ressources gratuites, de communauté WhatsApp et de présentation de la formation AI Academy.
 
-## Liens configurés
+## Ajouter un guide PDF
 
-Modifie `config.js` :
+1. Place le fichier PDF dans `assets/pdfs/`.
+2. Place sa couverture (JPG, PNG ou WebP) dans `assets/covers/`.
+3. Ajoute une entrée dans `documents.json` :
 
-- `course` : `https://aiacademy.futurhaiti.com/login` (page de connexion de la plateforme, conforme à la consigne de se connecter d’abord).
-- `whatsapp` : chaîne WhatsApp Futur Haïti fournie par le propriétaire.
+```json
+[
+  {
+    "title": "Titre du guide",
+    "description": "Ce que le lecteur trouvera dans le document.",
+    "category": "Guide IA",
+    "cover": "assets/covers/mon-guide.jpg",
+    "pdf": "assets/pdfs/mon-guide.pdf"
+  }
+]
+```
 
-Le contenu pédagogique est une présentation générale rédigée à partir du brief. Confirmer les sujets exacts avec le programme réel avant diffusion.
+4. Envoie les changements sur la branche `main`. GitHub Pages republiera le site.
+
+Les liens de téléchargement sont affichés après que le visiteur a rejoint WhatsApp et confirmé son accès. Cette confirmation fonctionne sur la base de la confiance : un site statique ne peut pas vérifier automatiquement l’adhésion à une chaîne WhatsApp. Les visiteurs peuvent accéder à la formation séparément, en option.
